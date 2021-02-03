@@ -6,7 +6,9 @@ body {
   ol, ul {
     padding-left: 30px;
   }
-  
+  .game-board{
+    width:100px;
+  }
   .board-row:after {
     clear: both;
     content: "";
