@@ -1,0 +1,14 @@
+{
+  "arrowParens": "always",
+  "parser": "babel",
+  "bracketSpacing": true,
+  "jsxBracketSameLine": true,
+  "printWidth": 80,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "jsxSingleQuote": true,
+  "semi": true,
+  "quoteProps": "as-needed",
+  "rangeStart": 1
+}
