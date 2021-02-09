@@ -1,28 +1,35 @@
-import React, { useState } from 'react'
-import './styles/game.css'
-import Board from './board.js'
+import React, { useState } from 'react';
+import Board from './board.js';
+import { makeStyles } from '@material-ui/styles';
 
 let status;
 
 export default function Game(){
+    
+    const classes = useStyles();
+
     const [history,setHistory] = useState([{
-        squares: Array(9).fill(null),
+        squares: Array(9).fill({
+            value:null,
+            isWin:false,
+        }),
         posX: null,
         posY: null,
-    }])
+    }]);
+
     const [stepNumber,setStepNumber] = useState(0);
     const [xIsNext,setXisNext] = useState(true);
 
     const handleClick = (i) => {
-        fetch("http://worldtimeapi.org/api/timezone/Europe/Samara")
-            .then(res=>res.json()).then(result=>console.log(result))
+        
         const current = history[stepNumber];
-        const squares = current.squares.slice();
-
-        if(calculateWinner(squares) || squares[i]){
-            return
+        const squares = [...current.squares];
+        const newSquareValue = {value:xIsNext ? "X" : "O", isWin:false};
+        if(calculateWinner(squares) || squares[i].value){
+            return;
         }
-        squares[i] = xIsNext ? "X" : "O";
+        squares[i] = newSquareValue;
+        //squares[i].value = xIsNext ? "X" : "O"
         setHistory(history.concat([{
             squares: squares,
             posY: Math.trunc( i / 3 ),
@@ -31,15 +38,37 @@ export default function Game(){
 
         setStepNumber(history.length);
         setXisNext(!xIsNext);       
-    }
+    };
 
+    const calculateWinner = (squares)=> {
+        const lines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+        for (let i = 0; i < lines.length; i++) {
+            const [a, b, c] = [squares[lines[i][0]],squares[lines[i][1]],squares[lines[i][2]]];
+            if (a.value && a.value === b.value && a.value === c.value) {
+                lines[i].map(x => history[stepNumber].squares[x].isWin = true);
+                return a.value;
+            }
+        }
+        return null;
+    };
     const jumpTo = (step) => {
-        setStepNumber(step)
-        setXisNext(step % 2 === 0)
-    }
-    
+        history[stepNumber].squares.map(x => x.isWin = false);
+        
+        setStepNumber(step);
+        setXisNext(step % 2 === 0);
+        setHistory(history.slice(0, step + 1));
+    };
     const current = history[stepNumber];
-    const winner = calculateWinner(current.squares)
+    const winner = calculateWinner(current.squares);
 
     const moves = history.map((step,move)=>{
         const desc = move ? 
@@ -61,14 +90,13 @@ export default function Game(){
     }
         
     return (
-        <div className="game">
-            <div className="game-board">
+        <div className={classes.game}>
                 <Board 
+                    classes = {{gameBoard:classes.fancyGameBoard}}
                     squares = {current.squares}
                     onClick = {(i) => handleClick(i) }
                 />
-            </div>
-            <div className="game-info">
+            <div className={classes.gameInfo}>
                 <div>{status}</div>
             <ol>{moves}</ol>
             </div>
@@ -76,22 +104,18 @@ export default function Game(){
     );
 }
 
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
-    }
-    return null;
-}
+const useStyles = makeStyles({
+    fancyGameBoard:{
+        border:"2px solid red",
+    },
+    game:{
+        textAlign:"center",
+        marginTop:20,
+    },
+    gameInfo:{
+        textAlign:'center',
+    },
+}, {
+    index: 1,
+    name: "game",
+});

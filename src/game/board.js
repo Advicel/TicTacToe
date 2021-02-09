@@ -1,16 +1,18 @@
-import React from "react"
-import Square from "./square.js"
+import React from "react";
+import Square from "./square.js";
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/styles';
 
-export default function Board ({squares,onClick}) {
+
+export default function Board ({squares,onClick,classes}) {
+    const styles = useStyles({classes});
     return (
-        <div>
+        <div className={styles.gameBoard}>
             {squares.map((square,index) => 
                 <Square 
-                    value = {squares[index]}
+                    square = {squares[index]}
                     onClick = {() => onClick(index)}
                     key = {index}
-                    id = {index}
                 />)}
         </div>
     );
@@ -19,8 +21,17 @@ export default function Board ({squares,onClick}) {
 Board.propTypes = {
     squares: PropTypes.array,
     onClick: PropTypes.func,
-}
+};
 
 Board.defaultProps ={
     
-}
+};
+
+const useStyles = makeStyles({
+    gameBoard:{
+        display: "inline-grid",
+        gridTemplateColumns:"40px 40px 40px",
+        gridTemplateRows:"40px 40px 40px",
+    },
+});
+
