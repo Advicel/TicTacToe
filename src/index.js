@@ -4,6 +4,7 @@ import Game from "./game/game.js";
 import Clock from "./clock/clock.js";
 import WorldsTime from "./worldsTime/worldsTime.js";
 import CloneInput from "./cloneInput/cloneInput.js";
+import CarRacing from "./carRacing/carRacing.js";
 
 const myComponent = (
   <div>
@@ -11,6 +12,7 @@ const myComponent = (
     <WorldsTime />
     <CloneInput />
     <Game />
+    <CarRacing/>
   </div>
 );
 

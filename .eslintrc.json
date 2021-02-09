@@ -47,15 +47,15 @@
         "camelcase": "error",
         "react/forbid-prop-types": 0,
         "react/default-props-match-prop-types": 0,
-        "react/jsx-filename-extension": [
-          2,
-          {
-            "extensions": [".js", ".jsx"]
-          }
-        ],
+        // "react/jsx-filename-extension": [
+        //   2,
+        //   {
+        //     "extensions": [".js", ".jsx"]
+        //   }
+        // ],
         "react/jsx-props-no-spreading": 0,
-        "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error",
+        //"react/jsx-uses-react": "error",
+        //"react/jsx-uses-vars": "error",
         //"prettier/prettier": ["error"],
         "react/no-find-dom-node": "off",
         "react/no-did-mount-set-state": "off",
