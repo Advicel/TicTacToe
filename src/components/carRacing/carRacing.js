@@ -16,15 +16,15 @@ export default function CarRacing(params) {
   const [myInterval, setMyInterval] = useState(null);
   const [space, setSpace] = useState(0);
   const [boost, setBoost] = useState(false);
-  const [move,setMove] = useState(false);
+  const [move, setMove] = useState(false);
 
   useEffect(() => {
     board.addCar(playerCar);
     enemyCars.push(new Car(false));
   }, []);
-//   useEffect(()=>{
-//       update();
-//   },[move]);
+  //   useEffect(()=>{
+  //       update();
+  //   },[move]);
 
   useEffect(() => {
     timer = setInterval(() => {
@@ -39,7 +39,7 @@ export default function CarRacing(params) {
     //         }
     //       }, speed)
     //     );
-  }, [space]);
+  });
   const update = () => {
     setSpace(space + 1);
 
@@ -95,7 +95,7 @@ export default function CarRacing(params) {
       board.removeCar(playerCar);
       playerCar.move();
       board.addCar(playerCar);
-      setMove(!move);
+      //setMove(!move);
       //updateOnMove();
     }
   });

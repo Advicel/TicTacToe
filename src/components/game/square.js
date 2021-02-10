@@ -1,12 +1,18 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
+import {connect} from 'react-redux';
+import {createMove} from '../../redux/actions';
 
 
-export default function Square({square, onClick}) {
-    const classes = useStyles();
+function Square({createMove,square, onClick,index}) {
+    const styles = useStyles();
+    const clickHandler = () => {
+        onClick();
+        createMove(index);
+    };
     return (
-        <button className={square.isWin ? classes.redSquare : classes.square} onClick = {onClick}>
+        <button className={square.isWin ? styles.red : styles.square} onClick = {clickHandler}>
             {square.value}
         </button>
     );
@@ -20,6 +26,16 @@ Square.propTypes = {
 Square.defaultProps ={
     value: null,
 };
+
+const mapStateToProps = state =>{
+    return {
+        moves:state.moves.moves,
+    };
+};
+const mapDispatchToProps = {
+    createMove:createMove,
+};
+export default connect(mapStateToProps,mapDispatchToProps)(Square);
 
 const useStyles = makeStyles({
     square:{
@@ -41,7 +57,7 @@ const useStyles = makeStyles({
             outline:"none",
         },
     },
-    redSquare:{
+    red:{
         background: "red",
         border: "1px solid #999",
         borderRadius:"20%",

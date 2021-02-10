@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import {connect} from 'react-redux';
 
-export default function CloneInput() {
+function CloneInput({moves}) {
     const classes = useStyles();
     const [inputText,setInputText] = useState();
     const [pText,setPtext] = useState(inputText);
-
+    console.log(moves, "from CLoneInput");
     useEffect(()=>{
         setPtext(inputText);
     },[inputText]);
@@ -20,10 +21,23 @@ export default function CloneInput() {
             <form className={classes.root}>
                 <TextField  label = "Введите текст" onChange={(e) => handleChange(e.target.value)}/>
                 <p>{pText}</p>
+                <ul>
+                    {moves.map(x=>{
+                        return <li key = {x}>{x}</li>;
+                    })}
+                </ul>
             </form>
         </div>
     );
 }
+
+const mapStateToProps = state =>{
+    return {
+        moves:state.moves.moves,
+    };
+};
+
+export default connect(mapStateToProps,null)(CloneInput);
 
 const useStyles = makeStyles((theme) =>({
     root: {

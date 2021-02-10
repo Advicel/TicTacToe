@@ -13,6 +13,7 @@ export default function Board ({squares,onClick,classes}) {
                     square = {squares[index]}
                     onClick = {() => onClick(index)}
                     key = {index}
+                    index ={index}
                 />)}
         </div>
     );
